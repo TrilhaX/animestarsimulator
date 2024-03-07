@@ -51,6 +51,315 @@ function autogamepass()
     end
 end
 
+function SetWalkSpeed(Value)
+    local walkSpeed = Value
+    
+    local UIS = game:GetService("UserInputService")
+    local RS = game:GetService("RunService")
+    local W, A, S, D
+    local xVelo, yVelo
+    
+    while true do
+        wait()
+        local HRP = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+        local C = game.Workspace.CurrentCamera
+        local LV = C.CFrame.LookVector
+
+        for i, v in pairs(UIS:GetKeysPressed()) do
+            if v.KeyCode == Enum.KeyCode.W then
+                W = true
+            end
+            if v.KeyCode == Enum.KeyCode.A then
+                A = true
+            end
+            if v.KeyCode == Enum.KeyCode.S then
+                S = true
+            end
+            if v.KeyCode == Enum.KeyCode.D then
+                D = true
+            end
+        end
+
+        if W == true and S == true then
+            yVelo = false
+            W, S = nil, nil
+        end
+
+        if A == true and D == true then
+            xVelo = false
+            A, D = nil, nil
+        end
+
+        if yVelo ~= false then
+            if W == true then
+                if xVelo ~= false then
+                    if A == true then
+                        local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(45), 0)).LookVector
+                        HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+                        W, A = nil, nil
+                    else
+                        if D == true then
+                            local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-45), 0)).LookVector
+                            HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+                            W, D = nil, nil
+                        end
+                    end
+                end
+            else
+                if S == true then
+                    if xVelo ~= false then
+                        if A == true then
+                            local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(135), 0)).LookVector
+                            HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+                            S, A = nil, nil
+                        else
+                            if D == true then
+                                local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-135), 0)).LookVector
+                                HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+                                S, D = nil, nil
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        if W == true then
+            HRP.Velocity = Vector3.new((LV.X * walkSpeed), HRP.Velocity.Y, (LV.Z * walkSpeed))
+        end
+        if S == true then
+            HRP.Velocity = Vector3.new(-(LV.X * walkSpeed), HRP.Velocity.Y, -(LV.Z * walkSpeed))
+        end
+        if A == true then
+            local LeftLV = (C.CFrame * CFrame.Angles(0, math.rad(90), 0)).LookVector
+            HRP.Velocity = Vector3.new((LeftLV.X * walkSpeed), HRP.Velocity.Y, (LeftLV.Z * walkSpeed))
+        end
+        if D == true then
+            local RightLV = (C.CFrame * CFrame.Angles(0, math.rad(-90), 0)).LookVector
+            HRP.Velocity = Vector3.new((RightLV.X * walkSpeed), HRP.Velocity.Y, (RightLV.Z * walkSpeed))
+        end
+
+        xVelo, yVelo, W, A, S, D = nil, nil, nil, nil, nil, nil
+        wait()
+    end
+end
+
+function timereward()
+    while getgenv().timereward == true do
+        local args = {
+            [1] = 1
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+        local args = {
+            [1] = 2
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+        local args = {
+            [1] = 3
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+        local args = {
+            [1] = 4
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+        local args = {
+            [1] = 5
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+        local args = {
+            [1] = 6
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlaytimeRemotes"):WaitForChild("ClaimPlaytime"):InvokeServer(unpack(args))
+    end
+end
+
+function autogetachievements()
+    while getgenv().autogetachievements == true do
+        local args = {
+            [1] = "Luck 0"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 3"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 4"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 5"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 6"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Luck 7"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))              
+        local args = {
+            [1] = "Inventory 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 3"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 4"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 5"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 6"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 7"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))  
+        local args = {
+            [1] = "Inventory 8"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 9"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))        
+        local args = {
+            [1] = "Inventory 10"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Damage 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Damage 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Damage 3"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Damage 4"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Damage 5"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args)) 
+        local args = {
+            [1] = "Yen 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Yen 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Yen 3"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Yen 4"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Yen 5"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))            
+        local args = {
+            [1] = "Yen 6"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Arena 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Arena 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Critical 1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))
+        local args = {
+            [1] = "Critical 2"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Critical 3"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))    
+        local args = {
+            [1] = "Critical 4"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradesRemotes"):WaitForChild("ClaimUpgrade"):InvokeServer(unpack(args))   
+        wait()
+    end
+end
+
 function autoboostinf()
     while getgenv().autoboostinf == true do
     local player = game:GetService("Players").LocalPlayer
@@ -78,7 +387,6 @@ local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Player')
 LeftGroupBox:AddToggle('Auto Click', {
     Text = 'Auto Click',
     Default = false,
-    Tooltip = '',
     Callback = function(Value)
         getgenv().autoclick = Value
         autoclick()
@@ -88,7 +396,6 @@ LeftGroupBox:AddToggle('Auto Click', {
 LeftGroupBox:AddToggle('Auto Gamepass', {
     Text = 'Auto Gamepass',
     Default = false,
-    Tooltip = '',
     Callback = function(Value)
         getgenv().autogamepass = Value
         autogamepass()
@@ -98,15 +405,41 @@ LeftGroupBox:AddToggle('Auto Gamepass', {
 LeftGroupBox:AddToggle('Auto Boost Inf', {
     Text = 'Auto Boost Inf',
     Default = false,
-    Tooltip = '',
     Callback = function(Value)
         getgenv().autoboostinf = Value
         autoboostinf()
     end
 })
 
+LeftGroupBox:AddToggle('Auto Get Achievements', {
+    Text = 'Auto Get Achievements',
+    Default = false,
+    Callback = function(Value)
+        getgenv().autogetachievements = Value
+        autogetachievements()
+    end
+})
 
+LeftGroupBox:AddToggle('Auto Get Time Rewards', {
+    Text = 'Auto Get Time Rewards',
+    Default = false,
+    Callback = function(Value)
+        getgenv().timereward = Value
+        timereward()
+    end
+})
 
+LeftGroupBox:AddSlider('Walkspeed', {
+    Text = 'Walkspeed',
+    Default = 16,
+    Min = 16,
+    Max = 100,
+    Rounding = 1,
+    Compact = false,
+    Callback = function(Value)
+        SetWalkSpeed(Value) -- Fixed the function call
+    end
+})
 
 local FrameTimer = tick()
 local FrameCounter = 0;
