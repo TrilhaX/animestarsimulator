@@ -397,7 +397,7 @@ end
 
 function autoenterdungeonsolo()
     while getgenv().autoenterdungeonsolo == true do
-        local dg = workspace.Dungeons["0"]
+        local dg = workspace.Dungeons:FindFirstChild("0")
         if dg then
             wait()
         else
