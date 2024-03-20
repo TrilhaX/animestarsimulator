@@ -30,6 +30,12 @@ function autoroll()
     end
 end
 
+function autorollnamek()
+    while getgenv().autorollnamek == true do
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("InventoryRemotes"):WaitForChild("HeroRoll"):InvokeServer()
+    end
+end
+
 function autogamepass()
     while getgenv().autogamepass == true do
         game:GetService("Players").LocalPlayer.Gamepasses["+2 Animon Equipped"].Value = true
@@ -377,6 +383,77 @@ function autoboostinf()
     end
 end
 
+function autorollmha()
+    while getgenv().autorollmha == true do
+    local args = {
+        [1] = "Hero Crystal",
+        [2] = "Normal"
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("InventoryRemotes"):WaitForChild("HeroRoll"):InvokeServer(unpack(args))
+    wait()
+    end    
+end
+
+function autoenterdungeonsolo()
+    while getgenv().autoenterdungeonsolo == true do
+        local dg = workspace.Dungeons["0"]
+        if dg then
+            wait()
+        else
+        local args = {
+            [1] = false
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("SoloLevelingDungeonRemotes"):WaitForChild("CreateDungeon"):InvokeServer(unpack(args))
+        wait(1)
+        local args = {
+            [1] = "Portal1"
+        }
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("SoloLevelingDungeonRemotes"):WaitForChild("JoinDungeon"):InvokeServer(unpack(args))
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("LocationRemotes"):WaitForChild("RespawnRequest"):InvokeServer()
+        end 
+    end
+end
+
+function autokillsolodg()
+    while getgenv().autokillsolodg == true do
+        local dg = workspace.Dungeons["0"]
+        if dg then
+            local caminhoenemies = game:GetService("ReplicatedStorage").SoloLevelingEnemies
+            local children = caminhoenemies:GetChildren()
+        
+            for i, child in ipairs(children) do
+                local Vuclan = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Vuclan")
+                local Cerberus = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Cerberus")
+                local Kargilgun = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Kargilgun")
+                
+                if Vuclan then
+                    local args = {
+                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Vuclan")
+                    }
+        
+                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
+                elseif Cerberus then
+                    local args = {
+                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Cerberus")
+                    }
+        
+                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
+                elseif Kargilgun then
+                    local args = {
+                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Kargilgun")
+                    }
+        
+                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
+                end
+                wait() -- Espera um segundo antes de verificar o próximo inimigo
+            end
+        end
+    end
+end
+
 
 local Tabs = {
     Main = Window:AddTab('Main'),
@@ -438,6 +515,35 @@ LeftGroupBox:AddSlider('Walkspeed', {
     Compact = false,
     Callback = function(Value)
         SetWalkSpeed(Value) -- Fixed the function call
+    end
+})
+
+local RightGroupBox = Tabs.Main:AddRightGroupbox('Farm')
+
+RightGroupBox:AddToggle('Auto Roll MHA', {
+    Text = 'Auto Roll MHA',
+    Default = false,
+    Callback = function(Value)
+        getgenv().autorollmha = Value
+        autorollmha()
+    end
+})
+
+RightGroupBox:AddToggle('Auto Enter Solo Dungeon', {
+    Text = 'Auto Enter Solo Dungeon',
+    Default = false,
+    Callback = function(Value)
+        getgenv().autoenterdungeonsolo = Value
+        autoenterdungeonsolo()
+    end
+})
+
+RightGroupBox:AddToggle('Auto Kill Enemies Solo Dungeon', {
+    Text = 'Auto Kill Enemies Solo Dungeon',
+    Default = false,
+    Callback = function(Value)
+        getgenv().autokillsolodg = Value
+        autokillsolodg()
     end
 })
 
