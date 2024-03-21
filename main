@@ -185,6 +185,68 @@ function timereward()
     end
 end
 
+local TweenService = game:GetService("TweenService")
+
+local speed = 1000
+
+function tweenModel(model, targetCFrame)
+    local duration = (model.PrimaryPart.Position - targetCFrame.Position).Magnitude / speed
+    local info = TweenInfo.new(duration, Enum.EasingStyle.Linear)
+    
+    local cframeValue = Instance.new("CFrameValue")
+    cframeValue.Value = model:GetPrimaryPartCFrame()
+    
+    cframeValue:GetPropertyChangedSignal("Value"):Connect(function()
+        model:SetPrimaryPartCFrame(cframeValue.Value)
+    end)
+    
+    local tween = TweenService:Create(cframeValue, info, {
+        Value = targetCFrame,
+    })
+    
+    tween:Play()
+    tween.Completed:Connect(function()
+        cframeValue:Destroy()
+    end)
+end
+
+function GetCFrame(obj, height, angle)
+    local cframe = CFrame.new()
+
+    if typeof(obj) == "Vector3" then
+        cframe = CFrame.new(obj)
+    elseif typeof(obj) == "table" then
+        cframe = CFrame.new(unpack(obj))
+    elseif typeof(obj) == "string" then
+        local parts = {}
+        for val in obj:gmatch("[^,]+") do
+            table.insert(parts, tonumber(val))
+        end
+        if #parts >= 3 then
+            cframe = CFrame.new(unpack(parts))
+        end
+    elseif typeof(obj) == "Instance" then
+        if obj:IsA("Model") then
+            local rootPart = obj:FindFirstChild("HumanoidRootPart") or obj:FindFirstChild("Torso")
+            if rootPart then
+                cframe = rootPart.CFrame
+            end
+        elseif obj:IsA("Part") then
+            cframe = obj.CFrame
+        end
+    end
+
+    -- Apply height and angle adjustments
+    if height then
+        cframe = cframe + Vector3.new(0, height, 0)
+    end
+    if angle then
+        cframe = cframe * CFrame.Angles(0, math.rad(angle), 0)
+    end
+    
+    return cframe
+end
+
 function autogetachievements()
     while getgenv().autogetachievements == true do
         local args = {
@@ -417,6 +479,7 @@ function autoenterdungeonsolo()
     end
 end
 
+
 function autokillsolodg()
     while getgenv().autokillsolodg == true do
         local dg = workspace.Dungeons["0"]
@@ -425,34 +488,51 @@ function autokillsolodg()
             local children = caminhoenemies:GetChildren()
         
             for i, child in ipairs(children) do
-                local Vuclan = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Vuclan")
-                local Cerberus = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Cerberus")
-                local Kargilgun = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Kargilgun")
-                
-                if Vuclan then
-                    local args = {
-                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Vuclan")
-                    }
-        
-                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
-                elseif Cerberus then
-                    local args = {
-                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Cerberus")
-                    }
-        
-                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
-                elseif Kargilgun then
-                    local args = {
-                        [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild("Kargilgun")
-                    }
-        
-                    game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
+                if child:IsA("Model") then
+                    local cframe = child.PrimaryPart.CFrame
+                    
+                    local Vuclan = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Vuclan")
+                    local Cerberus = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Cerborous")
+                    local Kargilgun = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Kargilgun")
+                    local Legua = workspace.Dungeons["0"].NormalRoom.EnemyFolder:FindFirstChild("Legua")
+                    
+                    local targetCFrame
+                    local enemyName
+                    
+
+                    
+                    if Vuclan then
+                        targetCFrame = GetCFrame(Vuclan) -- Adjust as needed
+                        enemyName = "Vuclan"
+                    elseif Cerberus then
+                        targetCFrame = GetCFrame(Cerberus) -- Adjust as needed
+                        enemyName = "Cerborous"
+                    elseif Kargilgun then
+                        targetCFrame = GetCFrame(Kargilgun) -- Adjust as needed
+                        enemyName = "Kargilgun"
+                    elseif Legua then
+                        targetCFrame = GetCFrame(Legua) -- Adjust as needed
+                        enemyName = "Legua"
+                    end
+                    
+                    if targetCFrame then
+                        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+                        local args = {
+                            [1] = workspace.Dungeons["0"].NormalRoom.EnemyFolder:WaitForChild(enemyName)
+                        }
+                        game:GetService("ReplicatedStorage").Remotes.EnemyRemotes.AttackEnemy:FireServer(unpack(args))
+                    else
+                        targetCFrame = CFrame.new(2.70002604, 5010.74365, -325.600098)
+                        tweenModel(game.Players.LocalPlayer.Character, targetCFrame)
+                    end
                 end
                 wait() -- Espera um segundo antes de verificar o próximo inimigo
             end
         end
     end
 end
+
+
 
 
 local Tabs = {
